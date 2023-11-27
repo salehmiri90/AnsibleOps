@@ -1,8 +1,7 @@
-### Automated_Ceph_Deployment
+# Automated_Ceph_Deployment
 A real world scenario codes to automate your infrastructure to build ceph 6 cluster.
-# ansible-playbook-ceph
-This is the first version of ansible playbooks to deploy ceph 5 (pacific) in your server environment.
 
+# Use this codes to install "Ceph 5"
 At the very first step, please find "ks.cfg" file for deploy it as kickstart file and use it to install server's operating system (redhat) in minimum time.
 There are some solutions for baremetal provisioning include  kickstart,foreman, MaaS,etc. It's depends on your preference.
 
