@@ -1,0 +1,15 @@
+---
+- hosts: all
+  # only run in mon1
+  gather_facts: yes
+  become: yes
+  tasks:
+  - name: add hosts
+    block:
+            - name: add hosts
+              shell:
+                      cmd: ceph orch host add {{ hostName }} {{ ip }}
+                      # only run in mon1
+    tags: addhost     
+
+

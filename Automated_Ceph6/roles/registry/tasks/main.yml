@@ -1,0 +1,27 @@
+---
+
+- name: Replace Registries for ceph 5
+  template:
+          src: ceph5_registry.j2
+          dest: /etc/containers/registries.conf
+          backup: yes
+          owner: root
+          group: root
+          mode: '0755'
+          remote_src: no
+  when: os_version == "8.6"
+
+
+- name: Replace Registries for ceph 6
+  template:
+          src: ceph6_registry.j2
+          dest: /etc/containers/registries.conf
+          backup: yes
+          owner: root
+          group: root
+          mode: '0755'
+          remote_src: no
+  when: os_version == "9.1"
+
+
+

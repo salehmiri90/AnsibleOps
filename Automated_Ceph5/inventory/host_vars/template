@@ -1,0 +1,18 @@
+---
+### host info ###
+hostName: ceph2-01
+ip: 1.1.1.1
+
+### zabbix agent info ###
+zbx_address: 1.77.10.120
+
+### bondc cluster (interconnect) info ###
+bondc_ipv4: 8.88.18.10/24
+bondc_slave:
+  - connamec: bondc-port1
+    ifnamec: ens3f0
+  - connamec: bondc-port2
+    ifnamec: ens4f11
+
+### 
+

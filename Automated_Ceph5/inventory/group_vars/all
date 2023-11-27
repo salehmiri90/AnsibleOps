@@ -1,0 +1,60 @@
+---
+### Packages ###
+basic_packages:
+  - telnet
+  - vim
+  - perl
+  - tzdata
+  - chrony
+  - attr
+
+ceph_packages:
+  - lvm2
+  - python3
+  - ceph-common
+  - ceph-osd
+
+
+### subscription ###
+org_id: Saleh_Miri
+activationkey: Saleh-Miri
+
+### Katello ###
+katello_url: http://salehmiri.local:1000/pub/katello-ca-consumer-latest.noarch.rpm
+
+### Source file Path ###
+rpm-repo:
+  - /home/ansible/common_config/rpm.repo
+
+### Podman ###
+podman_url: artifactory.saleh.miri.local:1000
+podman_pull:
+  - rhceph-5-rhel8
+  - ose-prometheus-node-exporter:v4.6
+  - ose-prometheus-alertmanager:v4.6
+  - ose-prometheus:v4.6
+  - rhceph-5-dashboard-rhel8
+
+podman_tag:
+  - registry.redhat.io/rhceph/rhceph-5-rhel8
+  - registry.redhat.io/openshift4/ose-prometheus-node-exporter:v4.6
+  - registry.redhat.io/openshift4/ose-prometheus-alertmanager:v4.6
+  - registry.redhat.io/openshift4/ose-prometheus:v4.6
+  - registry.redhat.io/rhceph/rhceph-5-dashboard-rhel8
+
+### NTP servers ###
+ntp_uae:
+  - uaentp1.saleh.miri.local
+  - uaentp2.saleh.miri.local
+ntp_uk:
+  - ukntp1.saleh.miri.local
+  - ukntp1.saleh.miri.local
+ntp_us:
+  - usntp1.saleh.miri.local
+  - usntp1.saleh.miri.local
+
+
+
+
+
+

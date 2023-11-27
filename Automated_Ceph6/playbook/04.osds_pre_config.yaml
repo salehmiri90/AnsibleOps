@@ -1,0 +1,22 @@
+####### READ ME #####
+# use --limit to define specific hosts
+# please complete hostvars and groupvars based on cluster
+# run this file before bootstrap
+# run on only OSDs
+---
+- hosts: all
+  gather_facts: no
+  serial: 1
+  tasks:
+
+  - name: Config Disks
+    block:
+            - name: Config Disks & create PV,VG,LV
+              include_role:
+                      name: partition
+    tags: partition
+    ignore_errors: yes
+###-------------------------------------------------###
+
+
+

@@ -1,0 +1,15 @@
+---
+
+- name: Mounting ISO & Copy to Directories
+  shell: |
+          mkdir -p /mnt/{{ item.hostName }}
+          mount -o loop -t iso9660 {{ isosrc }}/{{ src_iso_file }} /mnt/{{ item.hostName }}/
+          mkdir -p {{ file_path }}/{{ item.hostName }}
+          shopt -s dotglob
+          cp -avRfi /mnt/{{ item.hostName }}/* {{ file_path }}/{{ item.hostName }}/
+          sudo umount -f /mnt/{{ item.hostName }}
+
+  with_items:
+          - "{{ hosts }}"
+
+

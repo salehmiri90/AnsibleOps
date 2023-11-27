@@ -1,0 +1,130 @@
+####### READ ME #####
+# use --limit to define specific hosts
+# please complete hostvars and groupvars based on cluster
+# run this file before bootstrap
+# run on all mons and osds
+---
+- hosts: all
+  gather_facts: yes
+  tasks:
+
+  - name: Block Hostname
+    block:
+            - name: Change HostName
+              include_role:
+                      name: change-hostname
+    tags: hostname
+    ignore_errors: yes
+###-------------------------------------------------###
+  - name: Block Rhel 8 Subscription 
+    block:
+            - name: Instal Kattelo & Rhel Subscription
+              include_role:
+                      name: rhel-sub
+
+            - name: Add Nexus link to repo
+              include_role:
+                      name: nexus
+
+            - name: SSH Login message
+              include_role:
+                      name: motd
+    ignore_errors: yes
+    tags: subs
+###-------------------------------------------------###
+  - name: Initial Packages
+    block:
+            - name: Install Initial Packages
+              include_role:
+                      name: base-packages
+    ignore_errors: yes
+    tags: packages
+###-------------------------------------------------###
+  - name: Ceph Packages
+    block:
+            - name: Install Ceph Packages
+              include_role:
+                      name: ceph-packages
+    ignore_errors: yes
+    tags: ceph
+###-------------------------------------------------###
+  - name: Time Configuration
+    block:
+            - name: Set time & NTP
+              include_role:
+                      name: chrony
+    ignore_errors: yes
+    tags: time
+###-------------------------------------------------###
+  - name: Cluster network (bondc)
+    block:
+            - name: Create Bondc and it's configurations
+              include_role:
+                      name: bondc
+    ignore_errors: yes
+    tags: bondc
+###-------------------------------------------------###
+  - name: Interfaces
+    block:
+            - name: Check Onboot, Disable IPv6, Restart NetworkManager
+              include_role:
+                      name: network
+    ignore_errors: yes
+    tags: network
+###-------------------------------------------------###
+  - name: Registry
+    block:
+            - name: Using Jinja to configure registry in destinations
+              include_role:
+                      name: registry
+    ignore_errors: yes
+    tags: registry
+###-------------------------------------------------###
+  - name: Zabbix
+    block:
+            - name: copy Zabbix agent to remote servers
+              include_role:
+                      name: zabbix
+    ignore_errors: yes
+    tags: zabbix
+###-------------------------------------------------###
+  - name: Podman
+    block:
+            - name: Podman Pull & TAG
+              include_role:
+                      name: podman
+    ignore_errors: yes
+    tags: podman
+###-------------------------------------------------###
+  - name: PMP
+    block:
+            - name: Install & run PMP
+              include_role:
+                      name: pmp
+    ignore_errors: yes
+    tags: pmp
+###-------------------------------------------------###
+  - name: xoroux
+    block:
+            - name: Install & run Xoroux
+              include_role:
+                      name: xoroux
+    ignore_errors: yes
+    tags: xoroux
+###-------------------------------------------------###
+  - name: Show System Information
+    block:
+            - name: show all configurations
+              include_role:
+                      name: info 
+
+            - name: display message
+              run_once: yes
+              debug:
+                      msg:
+                              - 'Things must to do: '
+                              - '- Cluster is ready for bootstrap configuration'
+                              - '- all disks must start from sda'
+                              - '- all disks must be in order'
+    tags: info
+###-------------------------------------------------###

@@ -1,0 +1,30 @@
+---
+
+- name: Install CephADM Packages
+  yum:
+          name:
+                  - cephadm
+          state: present
+
+- name: Copy new Cephadm file for Ceph 5
+  copy:
+          src: cephadm5
+          dest: /usr/sbin/cephadm
+          owner: root
+          group: root
+          backup: yes
+          mode: '0755'
+          remote_src: no
+  when: os_version == "8.6" 
+
+- name: Copy new Cephadm file for Ceph 6
+  copy:
+          src: cephadm6
+          dest: /usr/sbin/cephadm
+          owner: root
+          group: root
+          backup: yes
+          mode: '0755'
+          remote_src: no
+  when: os_version == "9.1" 
+

@@ -1,0 +1,12 @@
+---
+
+- name: Copy Nexus Repo File to Remote Servers
+  copy:
+          src: nexus.repo
+          dest: /etc/yum.repos.d/
+          remote_src: no
+          owner: root
+          group: root
+          mode: '0644'
+  when: os_version == "8.6"
+

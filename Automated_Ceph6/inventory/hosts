@@ -1,0 +1,14 @@
+## Saleh Miri cluster
+[miri]
+cephlab0[1:5]
+
+[customer]
+cephlab-dep
+
+#########################
+####### PARENTS #########
+#########################
+### All Servers ###
+[all:children]
+miri
+customer

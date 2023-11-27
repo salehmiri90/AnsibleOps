@@ -1,0 +1,18 @@
+####### READ ME #####
+# use --limit to define specific hosts
+# please complete hostvars and groupvars based on cluster
+# run this file before bootstrap
+# run on only MONs
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+
+  - name: Podman on Mons
+    block:
+            - name: Podman Pull & Tags for Monitors
+              include_role:
+                      name: mons-podman
+    tags: podman
+    ignore_errors: yes
+###-------------------------------------------------###

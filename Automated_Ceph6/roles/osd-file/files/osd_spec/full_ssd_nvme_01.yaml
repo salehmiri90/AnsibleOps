@@ -1,0 +1,8 @@
+service_type: osd
+service_id: 
+placement:
+  hosts:
+    - miri-01
+data_devices:
+  paths:
+    - /dev/ceph-block-1/block1

@@ -1,0 +1,14 @@
+[registries.search]
+#registries = ['registry.access.redhat.com', 'registry.redhat.io', 'docker.io']
+registries = ['{{ ceph6_repo }}']
+
+[registries.insecure]
+#registries = []
+registries = ['{{ ceph6_repo }}']
+
+[registries.block]
+registries = []
+
+unqualified-search-registries = ["{{ ceph6_repo }}"]
+
+

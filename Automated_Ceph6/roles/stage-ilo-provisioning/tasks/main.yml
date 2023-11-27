@@ -1,0 +1,13 @@
+---
+#this playbook use stage server to run
+- name: Using HPE iLO to {{ ilo_state }} target physical servers
+  hpilo_boot:
+          host: "{{ item.ilo_ip }}"
+          login: "{{ ilo_user }}"
+          password: "{{ ilo_pass }}"
+          state: "{{ ilo_state }}"
+          media: cdrom
+          image: http://saleh.miri/{{ item.hostName }}.iso
+  delegate_to: localhost
+  with_items:
+          - "{{ hosts }}"

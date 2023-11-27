@@ -1,0 +1,47 @@
+---
+- hosts: ilo-ceph
+  gather_facts: no
+  vars:
+          - ansible_python_interpreter: /usr/bin/python3
+          - ansible_host_key_checking: no
+          - validate_certs: no
+
+  tasks:
+  - name: Block Generate ISO with KS file
+    block:
+            - name: Mount Rhel8.6 ISO file and copy files
+              include_role:
+                      name: copy-iso-mount
+
+            - name: Create RHEL Kickstart file
+              include_role:
+                      name: rhel-ks
+
+            - name: Generate ISO
+              include_role:
+                      name: rhel-gen-iso
+
+            - name: Make UEFI ISO
+              include_role:
+                      name: iso-uefi
+
+            - name: Clean Deploy Stage
+              include_role:
+                      name: clean-stage
+    tags: iso
+###----------------------------------------------###
+  - name: Use ISO to boot ILO
+    block:
+            - name: Using Prepared ISO file to Boot ILO without Human interactive
+              include_role:
+                      name: ilo-provisioning
+    tags: ilo
+###----------------------------------------------###
+
+
+
+
+
+
+
+

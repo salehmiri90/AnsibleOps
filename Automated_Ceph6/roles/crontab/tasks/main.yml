@@ -1,0 +1,11 @@
+---
+
+- name: modify crontab
+  cron:
+          name: "lpar2rrd-agent"
+          minute: "*"
+          hour: "*"
+          user: root
+          job: "/usr/bin/perl /opt/lpar2rrd-agent/lpar2rrd-agent.pl 1.2.3.19 > /var/tmp/lpar2rrd-agent.out 2>&1"
+
+

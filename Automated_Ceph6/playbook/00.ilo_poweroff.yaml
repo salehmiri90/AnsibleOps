@@ -1,0 +1,19 @@
+---
+- name: Power off HPE physical server using iLO module
+  hosts: all 
+  gather_facts: no
+  vars:
+          - ansible_python_interpreter: /usr/bin/python3
+          - ansible_host_key_checking: no
+          - validate_certs: no
+  tasks:
+          - name: Poweroff HPE Physical Servers
+            hpilo_boot:
+                    host: "{{ item.ilo_ip }}"
+                    login: "{{ ilo_user }}"
+                    password: "{{ ilo_pass }}"
+                    state: "poweroff"
+            delegate_to: localhost
+            with_items:
+                    - "{{ hosts }}"
+

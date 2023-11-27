@@ -1,0 +1,14 @@
+---
+hosts:
+  - hostName: ceph23-01
+    bond0_ip: 1.9.150.11
+    bond0slaves1: ens3np0
+    bond0slaves2: ens4np1
+    ilo_ip: 1.11.5.38
+
+  - hostName: ceph23-02
+    bond0_ip: 1.9.150.12
+    bond0slaves1: ens7np0
+    bond0slaves2: ens8np1
+    ilo_ip: 1.11.5.39
+

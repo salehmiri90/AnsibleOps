@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+# run after pmp
+          - name : lock Ansible User from targets
+            include_role:
+                    name: user-lock
+            ignore_errors: yes
+
+
+

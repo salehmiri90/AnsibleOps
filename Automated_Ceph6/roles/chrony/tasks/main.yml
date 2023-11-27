@@ -1,0 +1,36 @@
+---
+
+- name: set Timezone to your City
+  timezone:
+          name: Asia/City
+
+- name: delete chrony old config
+  shell:
+          cmd: sed -i '/iburst/d' /etc/chrony.conf
+
+- name: modify chrony file for Site_A Clusters
+  shell:
+          cmd: sed -i '3 i \server {{ ntp_site_a[0] }} iburst \nserver {{ ntp_site_a[1] }} iburst \n ' /etc/chrony.conf
+  when: ansible_facts['default_ipv4']['gateway'] == "1.2.3.4"
+
+- name: modify chrony file for Site_B Clusters
+  shell:
+          cmd: sed -i '3 i \server {{ ntp_site_b[0] }} iburst \nserver {{ ntp_site_b[1] }} iburst \n ' /etc/chrony.conf
+  when: ansible_facts['default_ipv4']['gateway'] == "1.2.3.5"
+
+- name: modify chrony file for Site_C Clusters
+  shell:
+          cmd: sed -i '3 i \server {{ ntp_site_c[0] }} iburst \nserver {{ ntp_site_c[1] }} iburst \n ' /etc/chrony.conf
+  when: ansible_facts['default_ipv4']['gateway'] == "1.2.3.6"
+
+- name: modify chrony file for Site_D Clusters
+  shell:
+          cmd: sed -i '3 i \server {{ ntp_site_d[0] }} iburst \nserver {{ ntp_site_d[1] }} iburst \n ' /etc/chrony.conf
+  when: ansible_facts['default_ipv4']['gateway'] == "1.2.3.7"
+
+- name: restart chrony service
+  service:
+          name: chronyd
+          state: restarted
+          enabled: yes
+

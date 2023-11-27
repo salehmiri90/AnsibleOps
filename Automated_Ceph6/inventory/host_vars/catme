@@ -1,0 +1,14 @@
+### create host_vars using template file :
+for i in {1..9}; do sudo cp template kceph3-0$i; done
+for i in {0..5}; do sudo cp template kceph3-1$i; done
+#########################################
+#########################################
+#########################################
+### configure host_vars parameters for ip, zbx_address, bondc_ipv4 :
+#define j=?? before run below loop
+for i in {0..5}; do sudo sed -i "s/bceph2-01/kceph2-1$i/g" kceph2-1$i; sudo sed -i "s/ip:/ip: 10.156.199.12$i/g" kceph2-1$i; sudo sed -i "s/10.110.11.110/10.110.11.12$i/g" kceph2-1$i; let "j = $j + 1"; sudo sed -i "s/10.88.0.1/10.88.0.$j/g" kceph2-1$i; sed -i "s/ens2f0np0/ens3f0/g" kceph2-1$i; sed -i "s/ens2f1np1/ens3f1/g" kceph2-1$i; done
+#########################################
+### replace ip address for special requirements
+for i in {1..9}; do let "j = $j + 1"; sudo sed -i "s/10.88.0.[0-9][0-9][0-9]/10.88.0.$j/g" kceph3-0$i; done
+for i in {0..5}; do let "j = $j + 1"; sudo sed -i "s/10.88.0.[0-9][0-9][0-9]/10.88.0.$j/g" kceph3-1$i; done
+

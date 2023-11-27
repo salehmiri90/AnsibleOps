@@ -1,0 +1,43 @@
+---
+#------ CEPH 5 ------------#
+- name: Podman Pull {{ ceph5_podman_pull[0] }}
+  shell:
+          cmd: podman pull {{ ceph5_podman_url }}/{{ ceph5_podman_pull[0] }}
+  when: os_version == "8.6"
+
+- name: Podman Pull {{ ceph5_podman_pull[1] }}
+  shell:
+          cmd: podman pull {{ ceph5_podman_url }}/{{ ceph5_podman_pull[1] }}
+  when: os_version == "8.6"
+#-----------------------------------------------------------------------------
+- name: Podman TAG  {{ ceph5_podman_pull[0] }}
+  shell:
+          cmd: podman tag  {{ ceph5_podman_url }}/{{ ceph5_podman_pull[0] }} {{ ceph5_podman_tag[0] }}
+  when: os_version == "8.6"
+
+- name: Podman TAG {{ ceph5_podman_pull[1] }}
+  shell:
+          cmd: podman tag {{ ceph5_podman_url }}/{{ ceph5_podman_pull[1] }} {{ ceph5_podman_tag[1] }}
+  when: os_version == "8.6"
+
+#----------------------------------------------------------------------------
+#------ CEPH 6 ------------#
+
+- name: Podman Pull {{ ceph6_podman_pull[0] }}
+  shell:
+          cmd: podman pull {{ ceph6_podman_url }}/{{ ceph6_podman_pull[0] }}
+  when: os_version == "9.1"
+
+- name: Podman Pull {{ ceph6_podman_pull[1] }}
+  shell:
+          cmd: podman pull {{ ceph6_podman_url }}/{{ ceph6_podman_pull[1] }}
+  when: os_version == "9.1"
+#-----------------------------------------------------------------------------
+- name: Podman TAG {{ ceph6_podman_pull[1] }}
+  shell:
+          cmd: podman tag {{ ceph6_podman_url }}/{{ ceph6_podman_pull[1] }} {{ ceph6_podman_tag[0] }}
+  when: os_version == "9.1"
+
+## main image related to rhel6 no need tag
+
+

@@ -1,0 +1,24 @@
+---
+
+- name: Modify hosts /etc/hosts
+  shell:
+          cmd: sudo echo "1.2.3.6     satellite.saleh.miri     satellite" >> /etc/hosts
+
+- name: Install Katello RPM
+  shell:
+          cmd: rpm -Uvh {{ katello_url }}
+
+- name: Subscribe to Redhat 8
+  redhat_subscription:
+          state: present
+          org_id: "{{ org_id }}"
+          activationkey: "{{ activationkey5 }}"
+  when: os_version == "8.6"
+
+- name: Subscribe to Redhat 9
+  redhat_subscription:
+          state: present
+          org_id: "{{ org_id }}"
+          activationkey: "{{ activationkey6 }}"
+  when: os_version == "9.1"
+

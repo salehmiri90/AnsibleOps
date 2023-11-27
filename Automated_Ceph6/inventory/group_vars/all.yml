@@ -1,0 +1,85 @@
+---
+### Packages ###
+basic_packages:
+  - telnet
+  - vim
+  - perl
+  - tzdata
+  - chrony
+  - bash-completion
+  - traceroute
+  - attr
+
+ceph_packages:
+  - lvm2
+  - python3
+  - ceph-common
+
+
+### subscription ###
+org_id: Your Company Info
+activationkey5: Key-for-Ceph-5
+activationkey6: Key-for-Ceph-6
+
+### Katello ###
+katello_url: http://satelite.miri.ir/pub/katello-ca-consumer-latest.noarch.rpm
+
+### Source file Path ###
+rpm-repo:
+  - /home/ansible/common_config/rpm.repo
+
+### Podman ###
+ceph5_podman_url: artifact.saleh.miri.ir
+ceph5_podman_pull:
+  - rhceph-5-rhel8
+  - ose-prometheus-node-exporter:v4.6
+  - ose-prometheus-alertmanager:v4.6
+  - ose-prometheus:v4.6
+  - rhceph-5-dashboard-rhel8
+
+ceph5_podman_tag:
+  - registry.redhat.io/rhceph/rhceph-5-rhel8
+  - registry.redhat.io/openshift4/ose-prometheus-node-exporter:v4.6
+  - registry.redhat.io/openshift4/ose-prometheus-alertmanager:v4.6
+  - registry.redhat.io/openshift4/ose-prometheus:v4.6
+  - registry.redhat.io/rhceph/rhceph-5-dashboard-rhel8
+
+
+ceph6_podman_url: artifact.saleh.miri.ir
+ceph6_podman_pull: 
+  - default_organization-ceph-repo-rhceph_rhceph-6-rhel9
+  - default_organization-ceph-repo-openshift4_ose-prometheus-node-exporter
+  - default_organization-ceph-repo-openshift4_ose-prometheus
+  - default_organization-ceph-repo-openshift4_ose-prometheus-alertmanager
+  - default_organization-ceph-repo-rhceph_rhceph-6-dashboard-rhel9
+  - default_organization-ceph-repo-rhceph_rhceph-haproxy-rhel9
+  - default_organization-ceph-repo-rhceph_rhceph-promtail-rhel9
+  - default_organization-ceph-repo-rhceph_snmp-notifier-rhel9
+
+ceph6_podman_tag:
+  - registry.redhat.io/openshift4/ose-prometheus-node-exporter:v4.12
+  - registry.redhat.io/openshift4/ose-prometheus:v4.12
+  - registry.redhat.io/openshift4/ose-prometheus-alertmanager:v4.12
+  - registry.redhat.io/rhceph/rhceph-6-dashboard-rhel9
+  - registry.redhat.io/rhceph/rhceph-haproxy-rhel9
+  - registry.redhat.io/rhceph/rhceph-promtail-rhel9
+  - registry.redhat.io/rhceph/snmp-notifier-rhel9
+
+### NTP servers ###
+ntp_site_a:
+  - ntpa1.saleh.miri
+  - ntpa2.saleh.miri
+ntp_site_b:
+  - ntpb1.saleh.miri
+  - ntpb2.saleh.miri
+ntp_site_c:
+  - ntpc1.saleh.miri
+  - ntpc2.saleh.miri
+ntp_site_d:
+  - ntpd1.saleh.miri
+  - ntpd2.saleh.miri
+
+
+
+
+

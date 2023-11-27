@@ -1,0 +1,39 @@
+####### READ ME #####
+# use --limit to define specific hosts
+# please complete hostvars and groupvars based on cluster
+# run this file for bootstrap
+# run on only ((( MON1 )))
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+
+  - name: block packages 
+    block:
+            - name: Install CephADM
+              include_role:
+                      name: cephadm
+    tags: cephadm
+    ignore_errors: yes
+###-------------------------------------------------###
+### After bootstrap only on MON1 #
+  - name: OSD Files
+    block:
+            - name: Prepare OSD files to Mon1 
+              include_role:
+                      name: osd-file
+    tags: osd
+    ignore_errors: yes
+###-------------------------------------------------###
+#### SMTP config for MON1
+  - name: block smtp
+    block:
+            - name: Enable Alert & Configure it based on Cluster
+              include_role:
+                      name: smtp
+    tags: smtp
+    ignore_errors: yes
+###-------------------------------------------------###
+
+
+

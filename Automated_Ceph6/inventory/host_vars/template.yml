@@ -1,0 +1,22 @@
+---
+### host info ###
+hostName: miri-01
+ip: 192.168.1.1 
+
+### pysical iLo info
+hosts:
+        - ilo_ip: 172.1.1.1
+
+### zabbix agent info ###
+zbx_address: 10.1.1.1
+
+### bondc cluster (interconnect) info ###
+bondc_ipv4: 10.111.1.1/24
+bondc_slave:
+  - connamec: bondc-port1
+    ifnamec: ens2f0
+  - connamec: bondc-port2
+    ifnamec: ens2f1
+
+### 
+

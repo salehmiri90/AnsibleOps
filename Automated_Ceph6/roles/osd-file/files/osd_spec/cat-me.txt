@@ -1,0 +1,34 @@
+#####################################
+#----------- for full ssd or nvme -------#
+#file name have to be osd_1.yml and so on.
+
+#A. create osd_1~n.yml
+#for i in {1..n}; do  cp full_ssd_nvme_01.yaml osd_$i.yml; done
+
+#B. run below command to replace each hosts in the mentioned files
+#sed -i 's/miri-01/miri-02/g' *
+
+#C. check the configs changed
+#grep kceph2 -nr
+
+#D. Run below to apply osds
+#for i in {1..8}; do  ceph orch apply -i osd_$i.yaml ; sleep 30 ; ceph osd tree ; echo "---------------------------------------------"; done
+
+
+#####################################
+#####################################
+#----------- for hdd and ssd -------#
+#file name have to be osd_1.yml and so on.
+
+#A. create osd_1~n.yml
+#for i in {1..n}; do  cp mix_hdd_ssd_01.yaml osd_$i.yml; done
+
+#B. run below command to replace each hosts in the mentioned files
+#sed -i 's/miri-01/miri-02/g' *
+
+#C. check the configs changed
+#grep kceph2 -nr
+
+#D. Run below to apply osds
+#for i in {1..8}; do  ceph orch apply -i osd_$i.yaml ; sleep 30 ; ceph osd tree ; echo "---------------------------------------------"; done
+
