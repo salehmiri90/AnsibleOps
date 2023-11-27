@@ -1,5 +1,5 @@
 # Automated_Ceph_Deployment
-A real world scenario codes to automate your infrastructure to build ceph 6 cluster.
+A real world scenario codes to automate your infrastructure to build Ceph 5 or Ceph 6 clusters.
 
 # Use this codes to install "Ceph 5"
 At the very first step, please find "ks.cfg" file for deploy it as kickstart file and use it to install server's operating system (redhat) in minimum time.
