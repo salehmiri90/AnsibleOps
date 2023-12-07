@@ -1,5 +1,5 @@
 # Automating Ceph Cluster Deployment
-
+Single touch ceph cluster deployment with less human interaction. 
 
 ## Description
 
