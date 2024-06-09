@@ -54,22 +54,55 @@ cp Automated_Ceph6/inventory/host_vars/template.yml Automated_Ceph6/inventory/ho
 vim Automated_Ceph6/inventory/host_vars/newhost.yml
 ````
 
-&#9745; 
-
 ### Step 3: Execution
-&#9745; Format and Validate codes to download required providers
+&#9745; Check ansible connectivity to targets. the name of server group is 'miri'.
 ```
-terraform fmt
-terraform validate
+ansible miri -m ping
 ```
 
-&#9745; Check the changes before impact on infrastructure.
+&#9745; In case of using HPE physical servers, you have to poweroff all servers by running below command.
 ```
-terraform plan
+ansible-playbook 00.ilo_poweroff.yaml
 ```
-&#9745; Execute below Terraform command to double check plan then hit `yes` to make changes. 
+
+&#9745; If you are using HPE physical servers, run below command to do one-click OS installation on target servers.
 ```
-terraform apply
+ansible-playbook 01.ilo_provision_rhel.yaml
+```
+
+&#9745; Doing post install and pre-configure ceph 6 cluster with below command. 
+```
+ansible-playbook 02.cluster_pre_config.yaml
+```
+
+&#9745; Configuring requirements only on mons nodes.
+```
+ansible-playbook 03.mons_pre_config.yaml
+```
+
+&#9745; Configuring requirements only on mons nodes.
+```
+ansible-playbook 04.osds_pre_config.yaml
+```
+
+&#9745; 
+```
+ansible-playbook 05.osds_pre_config_nvme.yaml
+```
+
+&#9745; 
+```
+ansible-playbook 06.bootstrap_mon1.yaml
+```
+
+&#9745; 
+```
+ansible-playbook 07.after_bootstrap.yaml
+```
+
+&#9745; 
+```
+ansible-playbook 08.userlock.yaml
 ```
 
 # ✍ Contribution
