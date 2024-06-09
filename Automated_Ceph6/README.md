@@ -75,32 +75,32 @@ ansible-playbook 01.ilo_provision_rhel.yaml
 ansible-playbook 02.cluster_pre_config.yaml
 ```
 
-&#9745; Configuring requirements only on mons nodes.
+&#9745; Configuring requirements only on 'MON' nodes.
 ```
 ansible-playbook 03.mons_pre_config.yaml
 ```
 
-&#9745; Configuring requirements only on mons nodes.
+&#9745; Configuring requirements only on 'OSD' nodes.
 ```
 ansible-playbook 04.osds_pre_config.yaml
 ```
 
-&#9745; 
+&#9745; In case of existing NVMe disks, run below command instead of abow playbook.
 ```
 ansible-playbook 05.osds_pre_config_nvme.yaml
 ```
 
-&#9745; 
+&#9745; Start bootstrapping Ceph6 cluster on only 'mon1' node using below playbook, because this configuration will done on only one server, you can do it by logging to this machine and run commands directly on the machine.
 ```
 ansible-playbook 06.bootstrap_mon1.yaml
 ```
 
-&#9745; 
+&#9745; Run below playbook on all of 'MON' nodes.
 ```
 ansible-playbook 07.after_bootstrap.yaml
 ```
 
-&#9745; 
+&#9745; Because of security vulnerabilities, you have to lock ansible users on target servers, running below playbook will adddress to do user lock on targets.
 ```
 ansible-playbook 08.userlock.yaml
 ```
