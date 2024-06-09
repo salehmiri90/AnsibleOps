@@ -11,7 +11,7 @@ It is essential to run the playbooks in sequence. Below, I have detailed each pl
 ### 🎥 Video Demo on Youtube
 Instruction video is already uploaded to my youtube channel [salehmiri90](https://youtube.com/salehmiri90) and the video names are:
 
-&#9745;
+&#9745; In future will be published!
 
 ## Technologies and Tools
 To implement this project, I only used Terraform and VMware vCenter product iso file. This method tested with vCenter 8.  
