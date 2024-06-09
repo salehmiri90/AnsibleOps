@@ -1,7 +1,3 @@
-
-# Automated_Ceph_Deployment
-A real world scenario codes to automate your infrastructure to build Ceph 5 or Ceph 6 clusters.
-
 # Use this codes to install "Ceph 5"
 At the initial stage, locate the "ks.cfg" file and utilize it as a kickstart file to expedite the installation of the server's operating system (Red Hat) to the minimum extent possible.
 For baremetal provisioning, there are various solutions available, including kickstart, Foreman, and MaaS, among others. The choice ultimately depends on your personal preference.
