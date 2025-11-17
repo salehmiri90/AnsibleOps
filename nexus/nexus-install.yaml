@@ -1,0 +1,227 @@
+---
+- name: Install Sonatype Nexus (RHEL 8/9)
+  hosts: nexus_servers
+  become: true
+
+  tasks:
+    - name: prerequisite package requirement
+      package:
+        name:
+                - java-11-openjdk-devel
+                - net-tools
+        state: present
+
+    - name: Ensure nexus directories exist
+      file:
+        path: "{{ nexus_install_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Ensure Nginx is installed
+      package:
+        name: nginx
+        state: present
+
+    - name: Deploy nginx.conf from template
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Ensure Nginx service is enabled and running
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
+
+    - name: Create a physical volume on /dev/sdb
+      lvg:
+        pvs: /dev/{{ physicaldisk }}
+        vg: vg_data
+        state: present
+
+    - name: Create a logical volume using all remaining space
+      lvol:
+        vg: vg_data
+        lv: lv_data
+        size: 100%FREE
+
+    - name: Create xfs filesystem on the LV
+      filesystem:
+        fstype: xfs
+        dev: /dev/vg_data/lv_data
+
+    - name: Create /data mount point
+      file:
+        path: /data
+        state: directory
+
+    - name: Mount LV to /data and add to fstab
+      mount:
+        path: /data
+        src: /dev/vg_data/lv_data
+        fstype: xfs
+        state: mounted
+
+    - name: Copy Nexus tarball to remote host
+      copy:
+        src: "{{ nexus_tarball }}"
+        dest: "/tmp"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Extract Nexus tarball
+      unarchive:
+        src: "/tmp/{{ nexus_tarball }}"
+        dest: "{{ nexus_install_dir }}"
+        remote_src: yes
+
+    - name: Ensure nexus group exists with specified GID
+      group:
+        name: "{{ nexus_group }}"
+        gid: "{{ nexus_gid }}"
+        state: present
+
+    - name: Ensure parent path for nexus home exists
+      file:
+        path: "{{ nexus_home | dirname }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Ensure nexus user exists with specified UID and home
+      user:
+        name: "{{ nexus_user }}"
+        uid: "{{ nexus_uid }}"
+        group: "{{ nexus_group }}"
+        comment: "Sonatype Nexus"
+        home: "{{ nexus_home }}"
+        shell: /bin/bash
+        createhome: yes
+        state: present
+
+    - name: Ensure ownership of install directory and contents
+      file:
+        path: "{{ nexus_install_dir }}"
+        state: directory
+        owner: "{{ nexus_user }}"
+        group: "{{ nexus_group }}"
+        recurse: yes
+
+    - name: Check whether a canonical 'nexus' directory/symlink already exists
+      stat:
+        path: "{{ nexus_symlink }}"
+      register: nexus_symlink_stat
+
+    - name: Find extracted nexus directory (if canonical nexus missing)
+      shell: "ls -d {{ nexus_install_dir }}/nexus-* 2>/dev/null | head -n1 || true"
+      register: nexus_extracted_dir
+      changed_when: false
+      when: not nexus_symlink_stat.stat.exists
+
+    - name: Create /app/nexus-repo/nexus symlink -> extracted directory (if needed)
+      file:
+        src: "{{ nexus_extracted_dir.stdout }}"
+        dest: "{{ nexus_symlink }}"
+        state: link
+        owner: "{{ nexus_user }}"
+        group: "{{ nexus_group }}"
+      when:
+        - not nexus_symlink_stat.stat.exists
+        - nexus_extracted_dir.stdout != ""
+
+    - name: Install systemd unit for nexus
+      copy:
+        dest: "{{ systemd_unit_path }}"
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          [Unit]
+          Description=nexus service
+          After=network.target
+
+          [Service]
+          Type=forking
+          LimitNOFILE=65536
+          ExecStart={{ nexus_symlink }}/bin/nexus start
+          ExecStop={{ nexus_symlink }}/bin/nexus stop
+          User={{ nexus_user }}
+          Restart=on-abort
+          TimeoutSec=600
+
+          [Install]
+          WantedBy=multi-user.target
+      notify:
+        - daemon-reload
+        - restart nexus
+
+    - name: Enable and start nexus service
+      systemd:
+        name: nexus
+        enabled: yes
+        state: started
+
+    - name: Ensure /etc/ssl/private directory exists
+      file:
+        path: /etc/ssl/private
+        state: directory
+        owner: root
+        group: root
+        mode: "0700"
+
+    - name: Copy Nexus SSL pem certificate
+      copy:
+        src: "{{ nexus_ssl_pem_src }}"
+        dest: "{{ nexus_ssl_pem_dest }}"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Copy Nexus SSL private key
+      copy:
+        src: "{{ nexus_ssl_key_src }}"
+        dest: "{{ nexus_ssl_key_dest }}"
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Copy Nexus SSL certificate
+      copy:
+        src: "{{ nexus_ssl_crt_src }}"
+        dest: "{{ nexus_ssl_crt_dest }}"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Deploy default 9081 conf file
+      template:
+        src: templates/nexus-security.conf.j2
+        dest: /etc/nginx/conf.d/nexus-security.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: reload nginx
+
+  handlers:
+    - name: daemon-reload
+      command: systemctl daemon-reload
+      listen: daemon-reload
+
+    - name: restart nexus
+      systemd:
+        name: nexus
+        state: restarted
+      listen: restart nexus
+
+    - name: reload nginx
+      systemd:
+        name: nginx
+        state: restarted
+      listen: reload nginx

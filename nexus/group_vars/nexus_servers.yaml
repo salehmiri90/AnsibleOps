@@ -1,0 +1,22 @@
+
+nexus_tarball: "nexus-3.84.0-03-linux-x86_64.tar.gz"
+clusterid: k1
+physicaldisk: sda
+# do not touch below lines
+nexus_ssl_pem_src: files/nexus-security.pem
+nexus_ssl_key_src: files/nexus-security.key
+nexus_ssl_crt_src: files/nexus-security.crt
+nexus_ssl_pem_dest: /etc/ssl/certs/nexus-security.pem
+nexus_ssl_key_dest: /etc/ssl/private/nexus-security.key
+nexus_ssl_crt_dest: /etc/ssl/private/nexus-security.crt
+nexus_tarball_src: ./files
+nexus_install_dir: /data/
+nexus_user: nexus
+nexus_group: nexus
+nexus_uid: 600109
+nexus_gid: 800109
+nexus_home: /data/users/nexus
+
+systemd_unit_path: /usr/lib/systemd/system/nexus.service
+nexus_symlink: "{{ nexus_install_dir }}/nexus"
+

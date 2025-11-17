@@ -1,0 +1,10 @@
+[nexus_servers]
+192.117.50.7
+
+[all:vars]
+ansible_user=saleh
+ansible_ssh_pass=P@$$w0rd
+ansible_become_method=su
+ansible_become_user=root
+ansible_become_pass=Str0ng!P@$$w0rd
+ansible_become=true
