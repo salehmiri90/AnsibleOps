@@ -1,0 +1,135 @@
+---
+- name: Create an empty file for offline repository
+  file:
+          path: /etc/yum.repos.d/offline.repo
+          state: touch
+
+- name: add Site1 offline repo
+  blockinfile:
+          path: /etc/yum.repos.d/offline.repo
+          block: |
+                  [rhel-9-for-x86_64-baseos-rpms]
+                  name=rhel-9-for-x86_64-baseos-rpms
+                  baseurl=http://site1.miri.ir:8081/repository/rhel-9-for-x86_64-baseos-rpms/
+                  enabled=1
+                  gpgcheck=0
+                  
+                  [rhel-9-for-x86_64-supplementary-rpms]
+                  name=rhel-9-for-x86_64-supplementary-rpms
+                  baseurl=http://site1.miri.ir:8081/repository/rhel-9-for-x86_64-supplementary-rpms/
+                  enabled=1
+                  gpgcheck=0
+                  
+                  [rhel-9-for-x86_64-appstream-rpms]
+                  name=rhel-9-for-x86_64-appstream-rpms
+                  baseurl=http://site1.miri.ir:8081/repository/rhel-9-for-x86_64-appstream-rpms/
+                  enabled=1
+                  gpgcheck=0
+
+                  [zabbix6.0-rhel9]
+                  name=zabbix6.0-rhel9
+                  baseurl=http://site1.miri.ir:8081/repository/zabbix6.0-rhel9/
+                  enabled=1
+                  gpgcheck=0
+
+  when: ansible_facts['default_ipv4']['gateway'] == "192.168.10.1" or ansible_facts['default_ipv4']['gateway'] == "192.168.11.1"
+
+#########
+
+- name: add Site2 offline repo
+  blockinfile:
+          path: /etc/yum.repos.d/offline.repo
+          block: |
+                  [rhel-9-for-x86_64-baseos-rpms]
+                  name=rhel-9-for-x86_64-baseos-rpms
+                  baseurl=http://site2.miri.ir:8081/repository/rhel-9-for-x86_64-baseos-rpms/
+                  enabled=1
+                  gpgcheck=0
+                  
+                  [rhel-9-for-x86_64-supplementary-rpms]
+                  name=rhel-9-for-x86_64-supplementary-rpms
+                  baseurl=http://site2.miri.ir:8081/repository/rhel-9-for-x86_64-supplementary-rpms/
+                  enabled=1
+                  gpgcheck=0
+                  
+                  [rhel-9-for-x86_64-appstream-rpms]
+                  name=rhel-9-for-x86_64-appstream-rpms
+                  baseurl=http://site2.miri.ir:8081/repository/rhel-9-for-x86_64-appstream-rpms/
+                  enabled=1
+                  gpgcheck=0
+
+                  [zabbix6.0-rhel9]
+                  name=zabbix6.0-rhel9
+                  baseurl=http://site2.miri.ir:8081/repository/zabbix6.0-rhel9/
+                  enabled=1
+                  gpgcheck=0
+
+  when: ansible_facts['default_ipv4']['gateway'] == "192.168.12.1"
+
+  #########
+
+- name: add Site3 offline repo
+  blockinfile:
+          path: /etc/yum.repos.d/offline.repo
+          block: |
+                  [rhel-9-for-x86_64-baseos-rpms]
+                  name=rhel-9-for-x86_64-baseos-rpms
+                  baseurl=http://site3.miri.ir:8081/repository/rhel-9-for-x86_64-baseos-rpms/
+                  enabled=1
+                  gpgcheck=0
+                  
+                  [rhel-9-for-x86_64-supplementary-rpms]
+                  name=rhel-9-for-x86_64-supplementary-rpms
+                  baseurl=http://site3.miri.ir:8081/repository/rhel-9-for-x86_64-supplementary-rpms/
+                  enabled=1
+                  gpgcheck=0
+                  
+                  [rhel-9-for-x86_64-appstream-rpms]
+                  name=rhel-9-for-x86_64-appstream-rpms
+                  baseurl=http://site3.miri.ir:8081/repository/rhel-9-for-x86_64-appstream-rpms/
+                  enabled=1
+                  gpgcheck=0
+                  
+                  [zabbix6.0-rhel9]
+                  name=zabbix6.0-rhel9
+                  baseurl=http://site3.miri.ir:8081/repository/zabbix6.0-rhel9/
+                  enabled=1
+                  gpgcheck=0
+
+  when: ansible_facts['default_ipv4']['gateway'] == "192.168.13.1"
+
+- name: add Site4 offline repo
+  blockinfile:
+          path: /etc/yum.repos.d/offline.repo
+          block: |
+                  [rhel-9-for-x86_64-baseos-rpms]
+                  name=rhel-9-for-x86_64-baseos-rpms
+                  baseurl=http://site4.miri.ir:8081/repository/rhel-9-for-x86_64-baseos-rpms/
+                  enabled=1
+                  gpgcheck=0
+
+                  [rhel-9-for-x86_64-supplementary-rpms]
+                  name=rhel-9-for-x86_64-supplementary-rpms
+                  baseurl=http://site4.miri.ir:8081/repository/rhel-9-for-x86_64-supplementary-rpms/
+                  enabled=1
+                  gpgcheck=0
+
+                  [rhel-9-for-x86_64-appstream-rpms]
+                  name=rhel-9-for-x86_64-appstream-rpms
+                  baseurl=http://site4.miri.ir:8081/repository/rhel-9-for-x86_64-appstream-rpms/
+                  enabled=1
+                  gpgcheck=0
+
+                  [zabbix6.0-rhel9]
+                  name=zabbix6.0-rhel9
+                  baseurl=http://site4.miri.ir:8081/repository/zabbix6.0-rhel9/
+                  enabled=1
+                  gpgcheck=0
+
+  when: ansible_facts['default_ipv4']['gateway'] == "192.168.14.1"  
+  
+#########
+
+- name: update repo cache for the new repo
+  command: yum repolist
+

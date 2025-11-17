@@ -1,0 +1,37 @@
+---
+
+- hosts: all
+  gather_facts: no
+  tasks:
+          - name: create files
+            include_role:
+                    name: touch
+            ignore_errors: yes
+
+          - name: add SRE repo in offline.repo file
+            include_role:
+                    name: offline-repo
+
+          - name: install filebeat
+            include_role:
+                    name: filebeat-install
+            ignore_errors: yes
+
+          - name: configure rsyslog
+            include_role:
+                    name: rsyslog
+            ignore_errors: yes
+
+          - name: create keystor
+            shell:
+                    cmd: echo "y" | filebeat keystore create
+
+          - name: configure filebeat to enable system and auditd
+            include_role:
+                    name: filebeat-config
+            ignore_errors: yes
+
+          - name: admin output
+            debug:
+                    msg: "run this command on target servers: filebeat keystore add ES_PASS"
+

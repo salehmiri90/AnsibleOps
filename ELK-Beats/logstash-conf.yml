@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  gather_facts: yes
+  tasks:
+          - name: configure offline repo
+            include_role:
+                    name: offline-repo
+            ignore_errors: yes
+
+          - name: install and configure logstash for connect to INFRA elastic
+            include_role:
+                    name: logstash
+
+          - name: admin output
+            debug:
+                    msg: "run this command on target servers: filebeat keystore add ES_PASS"
+

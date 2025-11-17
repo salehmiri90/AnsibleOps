@@ -1,0 +1,36 @@
+---
+- hosts: all
+  gather_facts: no
+  become: yes
+  become_method: sudo
+  tasks:
+    - block:
+          - name: copy elastic agent 8.16.1 to remote server
+            copy:
+              src: files/elastic-agent-8.16.1-linux-x86_64.tar.gz
+              dest: /opt/elastic-agent-8.16.1-linux-x86_64.tar.gz
+              mode: '0644'
+
+          - name: Unarchive elastic agent 8.16.1 on the remote machine
+            unarchive:
+              src: /opt/elastic-agent-8.16.1-linux-x86_64.tar.gz
+              dest: /opt/
+              remote_src: yes
+
+          - name: Install elastic agent 8.16.1
+            shell: "echo y | sudo /opt/elastic-agent-8.16.1-linux-x86_64/elastic-agent install --force --url=http://fleet.miri.ir:8220 --enrollment-token=S3owS0E1Z0JFWk4zTg= --insecure"
+
+          - name: Make sure elastic agent service is running and enable
+            systemd_service:
+              name: elastic-agent.service
+              enabled: true
+              state: started 
+
+      tags: install
+
+    - block:
+         - name: Uninstall elastic agent 8.16.1
+           shell: rm -rf /opt/elastic-agent-8.16.1-linux-x86_64/
+
+      tags: uninstall
+

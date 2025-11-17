@@ -1,0 +1,34 @@
+---
+
+- name: install logstash
+  yum:
+          name: logstash.x86_64
+          state: latest
+          update_cache: yes
+
+- name: copy rancher.conf to logstash
+  copy:
+          src: rancher.conf
+          dest: /etc/logstash/conf.d/
+          remote_src: no
+          owner: root
+          group: root
+
+- name: enable logstash
+  service:
+          name: logstash
+          enabled: yes
+  ignore_errors: yes
+
+- name: restart logstash
+  service:
+          name: logstash
+          state: restarted
+  register: lsservice_output
+  ignore_errors: yes
+
+### show debug info #
+- debug:
+        var: lsservice_output.stdout_lines
+
+

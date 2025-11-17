@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  gather_facts: no
+  tasks:
+          - name: create keystor
+            shell:
+                    cmd: echo "y" | filebeat keystore create
+
+          - name: admin output
+            debug:
+                    msg: "run this command on target servers: filebeat keystore add ES_PASS"
+
