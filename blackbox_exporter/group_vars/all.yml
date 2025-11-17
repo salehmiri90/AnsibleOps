@@ -1,0 +1,7 @@
+blackbox_version: "0.24.0"
+blackbox_archive: "blackbox_exporter-{{ blackbox_version }}.linux-amd64.tar.gz"
+blackbox_dir: "blackbox_exporter-{{ blackbox_version }}.linux-amd64"
+blackbox_bin_path: "/usr/local/bin/blackbox_exporter"
+blackbox_service_path: "/etc/systemd/system/blackbox_exporter.service"
+blackbox_config_dir: "/etc/blackbox_exporter"
+blackbox_config_file: "{{ blackbox_config_dir }}/config.yml"
