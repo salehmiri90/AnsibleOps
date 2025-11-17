@@ -1,0 +1,27 @@
+---
+
+- hosts: all
+  gather_facts: yes
+  tasks:
+          - name: install & configure zabbix
+            include_role:
+                    name: zabbix-agent
+
+          - name: enable zabbix agent2
+            service:
+                    name: zabbix-agent2.service
+                    enabled: yes
+            ignore_errors: yes
+
+          - name: check zabbix agent2 service status
+            command: sudo systemctl is-active zabbix-agent2.service
+            register: service_active
+
+          - name: check zabbix agent2 service status
+            command: sudo systemctl is-enabled zabbix-agent2.service
+            register: service_enable
+
+          - name: show output
+            debug:
+                    msg: "zabbix agent2 is: {{ service_active.stdout }} and {{ service_enable.stdout }}"
+

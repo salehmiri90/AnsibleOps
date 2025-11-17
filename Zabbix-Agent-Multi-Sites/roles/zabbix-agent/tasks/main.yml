@@ -1,0 +1,50 @@
+- name: Install a zabbix-agent2 from the repository
+  yum:
+          name: "zabbix-agent2.x86_64"
+          state: present
+
+- name: Enable zabbix service
+  service:
+          name:  zabbix-agent2.service
+          state: started
+
+- name: copy zabbix_agent2.conf file
+  template:
+          src: zabbix_agent2.j2
+          dest: /etc/zabbix/zabbix_agent2.conf
+          backup: no
+
+- name: zabbix config file Site1
+  blockinfile:
+          path: /etc/zabbix/zabbix_agent2.conf
+          block: |
+                  Server=site1.zbx.miri.ir
+                  ServerActive=site1.zbx.miri.ir
+  when: ansible_facts['default_ipv4']['gateway'] == "192.168.10.1"
+#########
+- name: zabbix config file Site2
+  blockinfile:
+          path: /etc/zabbix/zabbix_agent2.conf
+          block: |
+                  Server=site2.zbx.miri.ir
+                  ServerActive=site2.zbx.miri.ir
+  when: ansible_facts['default_ipv4']['gateway'] == "192.168.11.1"
+#########
+- name: zabbix config file Site3
+  blockinfile:
+          path: /etc/zabbix/zabbix_agent2.conf
+          block: |
+                  Server=site3.zbx.miri.ir
+                  ServerActive=site3.zbx.miri.ir
+  when: ansible_facts['default_ipv4']['gateway'] == "192.168.12.1"
+#########
+- name: Retrieve hostname
+  set_fact:
+          hostname: "{{ ansible_hostname }}"
+
+- name: Append hostname to file
+  lineinfile:
+          path: /etc/zabbix/zabbix_agent2.conf
+          line: "Hostname={{ hostname }}"
+          state: present
+  notify: Restart zabbix
