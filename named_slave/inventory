@@ -1,0 +1,8 @@
+[slave]
+site1-dns1 ansible_host=192.168.10.11
+site1-dns2 ansible_host=192.168.10.12
+site2-dns1 ansible_host=192.168.12.11
+site2-dns2 ansible_host=192.168.12.12
+
+[dns:children]
+slave

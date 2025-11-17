@@ -1,0 +1,14 @@
+---
+- name: start named
+  systemd:
+          name: named
+          state: started
+
+- name: reload firewalld
+  command:
+          cmd: firewall-cmd --reload
+
+- name: restart named
+  systemd:
+          name: named
+          state: reloaded

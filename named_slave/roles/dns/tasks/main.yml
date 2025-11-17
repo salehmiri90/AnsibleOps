@@ -1,0 +1,44 @@
+---
+
+- name: check bind is installed
+  shell: "which named"
+  register: checkbindinstalled
+  ignore_errors: yes
+
+- name: Install bind packages
+  dnf:
+          name: "{{ item }}"
+          state: latest
+  when: checkbindinstalled.rc != 0
+  with_items:
+          - bind.x86_64
+          - bind-utils.x86_64
+
+- name: Add service to firewall
+  firewalld:
+          service: "{{ item }}"
+          permanent: yes
+          state: enabled
+          immediate: true
+  notify: reload firewalld
+  ignore_errors: yes
+  with_items:
+          - dns
+
+- name: DNS configuration on DNS slave servers
+  template:
+          src: named-slave.conf.j2
+          dest: /etc/named.conf
+  notify: restart named
+
+- name: enable named service
+  shell: systemctl enable named
+
+- name: check named service is enabled
+  shell: systemctl is-enabled named
+  register: named_output
+
+- name: check dns configuration
+  shell: "named-checkconf"
+  register: checkconf_output
+

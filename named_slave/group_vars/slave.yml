@@ -1,0 +1,17 @@
+---
+zones:
+        - name: miri.ir
+          dbname: miri.ir
+
+        - name: site1.miri.ir
+          dbname: site1.miri.ir
+
+        - name: 10.168.192
+          dbname: 192.168.10
+
+        - name: 11.168.192
+          dbname: 192.168.11
+
+query:
+        - localhost
+        - 192.168.10.0/24

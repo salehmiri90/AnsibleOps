@@ -1,0 +1,9 @@
+---
+
+- hosts: dns
+  gather_facts: yes
+  tasks:
+          - name: install DNS feature
+            include_role:
+                    name: dns
+  
