@@ -1,0 +1,17 @@
+---
+- name: Create multiple users
+  hosts: myservers
+  become: yes
+  tasks:
+
+    - name: Create users with loop
+      user:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - saleh
+        - miri
+        - sahar
+        - atena
+        - babak
+        - mani

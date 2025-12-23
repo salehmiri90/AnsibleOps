@@ -1,0 +1,16 @@
+---
+- hosts: myservers
+  become: yes
+  tasks:
+    - name: install nginx on Rocky
+      yum:
+        name: nginx
+        state: latest
+      when: ansible_os_family == "Rocky"
+
+    - name: install nginx on Debian
+      apt:
+        name: nginx
+        state: latest
+      when: ansible_os_family == "Ubuntu"
+    

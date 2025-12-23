@@ -1,0 +1,24 @@
+---
+- name: Simple example of register
+  hosts: myservers
+  become: yes
+  tasks:
+
+    - name: Check if /opt/ directory exists
+      stat:
+        path: /opt/
+      register: opt_dir_status
+
+    - name: Show the result of the stat task
+      debug:
+        var: opt_dir_status
+
+    - name: Show the result of the stat task
+      debug:
+        msg:  "Directory exists is {{ opt_dir_status.stat.exists }}"
+
+    - name: Show the result of the stat mode
+      debug:
+        msg: "Directory mode is {{ opt_dir_status.stat.mode }}"
+
+
