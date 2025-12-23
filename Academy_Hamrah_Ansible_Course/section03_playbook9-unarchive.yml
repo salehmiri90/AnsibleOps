@@ -6,5 +6,5 @@
     - name: Extract archive
       unarchive:
         src: /opt/training.tar.gz
-        dest: /opt/
+        dest: /tmp/
         remote_src: yes

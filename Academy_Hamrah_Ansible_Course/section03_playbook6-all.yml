@@ -25,13 +25,13 @@
 
     - name: Create directory
       file:
-        path: /opt/app
+        path: /opt/training
         state: directory
     
     - name: Create file
       file:
-        path: /opt/app/index.html
+        path: /opt/training/index.html
         state: touch
-        owner: app
-        group: app
+        owner: training
+        group: training
         mode: '0644'
