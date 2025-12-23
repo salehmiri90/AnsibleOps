@@ -1,0 +1,16 @@
+---
+- hosts: myservers
+  become: yes
+  tasks:
+    - name: Create directory
+      file:
+        path: /opt/app
+        state: directory
+    
+    - name: Create file
+      file:
+        path: /opt/app/index.html
+        state: touch
+        owner: app
+        group: app
+        mode: '0644'

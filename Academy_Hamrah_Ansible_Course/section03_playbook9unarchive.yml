@@ -1,0 +1,10 @@
+---
+- hosts: myservers
+  become: yes
+  tasks:
+
+    - name: Extract archive
+      unarchive:
+        src: /opt/training.tar.gz
+        dest: /opt/
+        remote_src: yes

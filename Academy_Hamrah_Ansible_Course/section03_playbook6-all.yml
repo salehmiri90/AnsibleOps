@@ -1,0 +1,37 @@
+---
+- hosts: myservers
+  become: yes
+  tasks:
+    - name: install nginx
+      yum:
+        name: nginx
+        state: latest
+
+    - name: Start httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: config firewall
+      firewalld:
+        service: http
+        port: 8080/tcp
+        source: 192.0.0.0/24
+        zone: public
+        state: enabled
+        permanent: yes
+        immediate: yes
+
+    - name: Create directory
+      file:
+        path: /opt/app
+        state: directory
+    
+    - name: Create file
+      file:
+        path: /opt/app/index.html
+        state: touch
+        owner: app
+        group: app
+        mode: '0644'

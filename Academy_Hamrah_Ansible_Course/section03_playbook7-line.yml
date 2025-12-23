@@ -1,0 +1,9 @@
+---
+- hosts: myservers
+  become: yes
+  tasks:
+
+    - name: Add custom line to hosts file
+      lineinfile:
+        path: /etc/hosts
+        line: "192.168.1.10   myapp.local"

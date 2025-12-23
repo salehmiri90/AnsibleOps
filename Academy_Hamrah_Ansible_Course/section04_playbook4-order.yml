@@ -1,0 +1,20 @@
+---
+- name: Set Firewall Configurations
+  hosts: myservers
+  become: yes
+  tasks:
+
+    - name: Enable HTTPS service
+      firewalld:
+        service: https
+        permanent: true
+        state: enabled
+
+    - name: Enable Kibana port
+      firewalld:
+        port: "{{ kibana_port }}/tcp"
+        permanent: true
+        state: enabled
+
+    - name: Restart Firewalld
+      command: firewall-cmd --reload

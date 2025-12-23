@@ -1,0 +1,12 @@
+---
+- name: variable playbook test 
+  hosts: myservers
+  vars:
+    var_one: awesome
+    var_two: ansible is
+    var_three: "{{ var_two }} {{ var_one }}"
+  
+  tasks:
+    - name: print out total values
+      debug:
+        msg: "{{var_three}}"

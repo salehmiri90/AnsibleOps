@@ -1,0 +1,12 @@
+---
+- hosts: myservers
+  become: yes
+  tasks:
+
+    - name: Copy training file
+      copy:
+        src: info.txt
+        dest: /opt/info.txt
+        owner: root
+        group: root
+        mode: '0644'
