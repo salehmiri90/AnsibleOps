@@ -1,0 +1,9 @@
+---
+- hosts: myservers
+  become: yes
+
+  tasks:
+    - name: install nginx
+      yum:
+        name: nginx
+        state: latest
