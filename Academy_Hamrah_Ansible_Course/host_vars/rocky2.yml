@@ -1,4 +1,4 @@
 ---
-ansible_host: 
+ansible_host: 192.168.1.2
 #kibana_port: 5601
 #dns_server: 4.4.4.4
